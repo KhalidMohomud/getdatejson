@@ -43,21 +43,52 @@ class _HomeState extends State<Home> {
       body: FutureBuilder(
           future: getphotos(),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (Context, index) => ListTile(
-                        title: Text(snapshot.data![index].title!),
-                        subtitle: Text(snapshot.data![index].id.toString()),
-                        leading:
-                            Image.network(snapshot.data![index].thumbnailUrl!),
-                      ));
-              // Text(snapshot.data![index].title!));
-              //  Text(snapshot.data!.first!.thumbnailUrl!);
-            } else if (snapshot.hasError) {
-              return Text("xog mala haayo");
-            }
-            return Center(child: CircularProgressIndicator());
+            // return snapshot.hasData
+            // ..... listview build  like is working  for loop
+            return snapshot.hasData
+                ? ListView(
+                    children: [
+                      for (var item in snapshot.data!)
+                        ListTile(
+                          title: Text(item.title!),
+                          subtitle: Text(item.id.toString()),
+                          leading: Image.network(item.thumbnailUrl!),
+                        ),
+                    ],
+                  )
+                : snapshot.hasError
+                    ? Text("xog mala haayo")
+                    : Center(child: CircularProgressIndicator());
+
+            // ? ListView.builder(
+            //     itemCount: snapshot.data!.length,
+            //     itemBuilder: (context, index) => ListTile(
+            //       title: Text(snapshot.data![index].title!),
+            //       subtitle: Text(snapshot.data![index].id.toString()),
+            //       leading:
+            //           Image.network(snapshot.data![index].thumbnailUrl!),
+            //     ),
+            //   )
+            // : snapshot.hasError
+            //     ? Text("xog mala haayo")
+            //     : Center(child: CircularProgressIndicator());
+
+            //   if (snapshot.hasData) {
+            //     return ListView.builder(
+            //         itemCount: snapshot.data!.length,
+            //         itemBuilder: (Context, index) => ListTile(
+            //               title: Text(snapshot.data![index].title!),
+            //               subtitle: Text(snapshot.data![index].id.toString()),
+            //               leading:
+            //                   Image.network(snapshot.data![index].thumbnailUrl!),
+            //             ));
+            //     // Text(snapshot.data![index].title!));
+            //     //  Text(snapshot.data!.first!.thumbnailUrl!);
+            //   } else if (snapshot.hasError) {
+            //     return Text("xog mala haayo");
+            //   }
+            //   return Center(child: CircularProgressIndicator());
+            // }
           }),
     );
   }
